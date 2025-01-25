@@ -20,10 +20,11 @@ async function Home({
         <p className="tag">Pitch, Vote and Grow</p>
 
         <h1 className="heading">
-          Pitch Your Startup, <br /> Connect With Entrepreneurs
+          The Gateway to Startup Success
         </h1>
 
         <p className="sub-heading !max-w-3xl">
+        Empowering startups to shine in front of the right audience.
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions
         </p>
 
