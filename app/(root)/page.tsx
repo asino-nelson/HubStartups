@@ -17,15 +17,14 @@ async function Home({
   return (
     <>
       <section className="pink_container">
-        <p className="tag">Pitch, Vote and Grow</p>
+        <p className="tag">Your ideas. Your platform. Your future</p>
 
         <h1 className="heading">
           The Gateway to Startup Success
         </h1>
 
         <p className="sub-heading !max-w-3xl">
-        Empowering startups to shine in front of the right audience.
-          Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions
+          Pitch your big idea, connect with like-minded innovators, and unlock endless possibilities for your startup journey
         </p>
 
         <SearchForm query={query} />
