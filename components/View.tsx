@@ -1,5 +1,3 @@
-import { unstable_after as after } from "next/server";
-
 import Ping from "@/components/Ping";
 import { formatNumber } from "@/lib/utils";
 
@@ -14,12 +12,12 @@ const View = async ({ id }: { id: string }) => {
       id: id,
     });
 
-  after(async () => {
-    await writeClient
-      .patch(id)
-      .set({ views: totalViews + 1 })
-      .commit();
-  });
+
+  await writeClient
+    .patch(id)
+    .set({ views: totalViews + 1 })
+    .commit();
+
 
   return (
     <div className="view-container">

@@ -19,17 +19,12 @@ import StartupCard, { StartupCardType } from "@/components/StartupCard";
 const md = markdownit();
 export const experimental_ppr = true;
 
-async function Page({ params }: { params: Promise<{ id: string }> }) {
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
+  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id })
 
-  const [post, { select: editorPosts }] = await Promise.all([
-    client.fetch(STARTUP_BY_ID_QUERY, {
-      id: id,
-    }),
-    client.fetch(PLAYLIST_BY_SLUG_QUERY, {
-      slug: "editor-picks",
-    }),
-  ]);
+  const playlist = await client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "editor-picks" });
+  const editorPosts = playlist?.select || "No editor picks available.";
 
   if (!post) return notFound();
   const parsedContent = md.render(post?.pitch || "");
@@ -57,7 +52,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
               className="flex gap-2 items-center mb-3"
             >
               <Image
-                src={post.author.image}
+                src={post.author?.image}
                 alt="image"
                 width={64}
                 height={64}
@@ -65,9 +60,9 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
               />
 
               <div>
-                <p className="text-20-medium">{post.author.name}</p>
+                <p className="text-20-medium">{post.author?.name}</p>
                 <p className="text-16-medium !text-black-300">
-                  @{post.author.username}
+                  @{post.author?.username}
                 </p>
               </div>
             </Link>
@@ -90,10 +85,10 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 
         {editorPosts?.length > 0 && (
           <div className="max-w-4xl mx-auto">
-            <p className="text-30-semibold">Editor Picks</p>
+            <p className="text-30-semibold">Top Startups 2025</p>
 
             <ul className="mt-7 card_grid-sm">
-              {editorPosts.map((post: StartupCardType, index: number) => (
+              {(Array.isArray(editorPosts) ? editorPosts : []).map((post: StartupCardType, index: number) => (
                 <StartupCard key={index} post={post} />
               ))}
             </ul>

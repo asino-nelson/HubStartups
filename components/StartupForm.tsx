@@ -41,7 +41,6 @@ const StartupForm = () => {
 
       // Create the idea and handle the result
       const result = await createIdea(prevState, formData, pitch);
-      console.log({ result });
 
       if (result.status === "SUCCESS") {
         toast({
@@ -93,7 +92,7 @@ const StartupForm = () => {
           name="title"
           className="startup-form_input"
           required
-          placeholder="Startup Hub"
+          placeholder="Startup Title"
         />
 
         {errors.title && <p className="startup-form_error">{errors.title}</p>}

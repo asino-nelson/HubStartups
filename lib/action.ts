@@ -9,7 +9,7 @@ import { parseServerActionResponse } from "@/lib/utils";
 export const createIdea = async (state: any, form: FormData, pitch: string) => {
   const session = await auth();
   if (!session)
-    parseServerActionResponse({ error: "Not signed in", status: "ERROR" });
+    return parseServerActionResponse({ error: "Not signed in", status: "ERROR" });
 
   const { title, description, category, link } = Object.fromEntries(
     Array.from(form).filter(([key]) => key !== "pitch"),
