@@ -13,9 +13,14 @@ export const formSchema = z.object({
   link: z
     .string()
     .url("Invalid Image URL")
-    .refine( (url) => {
-      // Check if the URL ends with common image file extensions
-      return /\.(jpeg|jpg|png|gif|bmp|webp|svg|tiff?)$/i.test(url);
+    .refine(async (url) => {
+      try {
+        const res = await fetch(url, { method: "HEAD" });
+        const contentType = res.headers.get("content-type");
+        return contentType?.startsWith("image/");
+      } catch {
+        return false;
+      }
     }, "URL must be a valid image"),
   pitch: z.string().min(10, "Pitch should be at least 10 characters"),
 });
