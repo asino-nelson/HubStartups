@@ -9,18 +9,12 @@ export const formSchema = z.object({
   category: z
     .string()
     .min(3, "Category should be at least 3 characters")
-    .max(20, "Category is too long. Max 20 characters at most"),
+    .max(50, "Category is too long. Max 20 characters at most"),
   link: z
     .string()
     .url("Invalid Image URL")
-    .refine(async (url) => {
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        const contentType = res.headers.get("content-type");
-        return contentType?.startsWith("https:/");
-      } catch {
-        return false;
-      }
+    .refine( (url) => {
+    return /\.(jpeg|jpg|png|gif|bmp|webp|svg|tiff?)$/i.test(url);
     }, "URL must be a valid image"),
   pitch: z.string().min(10, "Pitch should be at least 10 characters"),
 });
