@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+
 export const formSchema = z.object({
   title: z.string().min(3, "Title is required").max(100, "Title is too long"),
   description: z
@@ -12,9 +13,6 @@ export const formSchema = z.object({
     .max(50, "Category is too long. Max 20 characters at most"),
   link: z
     .string()
-    .url("Invalid Image URL")
-    .refine( (url) => {
-    return /\.(jpeg|jpg|png|gif|bmp|webp|svg|tiff?)$/i.test(url);
-    }, "URL must be a valid image"),
+    .url(),
   pitch: z.string().min(10, "Pitch should be at least 10 characters"),
 });
