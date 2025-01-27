@@ -24,7 +24,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const post = await client.fetch(STARTUP_BY_ID_QUERY, { id })
 
   const playlist = await client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "editor-picks" });
-  const editorPosts = playlist?.select || "No editor picks available.";
+  const editorPosts = Array.isArray(playlist?.select) ? playlist.select : [];
+
+  console.log("editorPosts:", editorPosts);
 
   if (!post) return notFound();
   const parsedContent = md.render(post?.pitch || "");
@@ -88,7 +90,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p className="text-30-semibold">Top Startups 2025</p>
 
             <ul className="mt-7 card_grid-sm">
-              {(Array.isArray(editorPosts) ? editorPosts : []).map((post: StartupCardType, index: number) => (
+              {editorPosts.map((post: StartupCardType, index: number) => (
                 <StartupCard key={index} post={post} />
               ))}
             </ul>
@@ -101,6 +103,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       </Suspense>
     </>
   );
+
+
 }
 
 export default Page;
