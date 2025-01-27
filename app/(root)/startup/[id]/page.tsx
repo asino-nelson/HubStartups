@@ -88,7 +88,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p className="text-30-semibold">Top Startups 2025</p>
 
             <ul className="mt-7 card_grid-sm">
-              {editorPosts.map((post: StartupCardType, index: number) => (
+              {(Array.isArray(editorPosts) ? editorPosts : []).map((post: StartupCardType, index: number) => (
                 <StartupCard key={index} post={post} />
               ))}
             </ul>
